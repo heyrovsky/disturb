@@ -1,8 +1,7 @@
 /*
 Package keys provides Ed25519 cryptographic key management and signature operations.
 
-To future me reading this code: You wrote it after a few shots of whiskey.
-Only God knows what you did. Good luck!
+ // lol
 
 Key features:
 - Ed25519 key pair generation and management
@@ -60,6 +59,29 @@ func (e Ed25519PublicKey) Json() ([]byte, error) {
 // String returns the hexadecimal string representation of the public key.
 func (e Ed25519PublicKey) String() (string, error) {
 	return hex.EncodeToString(e[:]), nil
+}
+
+// UnmarshalPublicKeyFromByte implements PublicKey.
+func (e Ed25519PublicKey) UnmarshalPublicKeyFromByte(data []byte) (PublicKey, error) {
+	if len(data) != ed25519.PublicKeySize {
+		return nil, fmt.Errorf("invalid public key size: got %d bytes, expected %d: %w",
+			len(data), ed25519.PublicKeySize, io.ErrUnexpectedEOF)
+	}
+
+	var pubKey Ed25519PublicKey
+	copy(pubKey[:], data)
+	return pubKey, nil
+}
+
+// Size implements PublicKey.
+
+func (e Ed25519PublicKey) Size() int {
+	return len(e)
+}
+
+// Byte implements PublicKey.
+func (e Ed25519PublicKey) Bytes() []byte {
+	return e[:]
 }
 
 // Verify checks if the provided signature is valid for the data using the public key.

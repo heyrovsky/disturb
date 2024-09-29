@@ -38,6 +38,15 @@ type PublicKey interface {
 
 	// Json returns the public key in JSON format.
 	Json() ([]byte, error)
+
+	// Size returns the size of the key
+	Size() int
+
+	// Byte returns the public key in byte
+	Bytes() []byte
+
+	//Unmarshal Public key from byte
+	UnmarshalPublicKeyFromByte(data []byte) (PublicKey, error)
 }
 
 // PrivateKey represents a private key for cryptographic operations.
