@@ -6,8 +6,11 @@ package p2p
 
 import (
 	"net"
+	"sync/atomic"
+	"time"
 
 	"github.com/heyrovsky/disturbdb/log"
+	"github.com/heyrovsky/disturbdb/pkg/id"
 	"github.com/heyrovsky/disturbdb/pkg/keys"
 )
 
@@ -19,4 +22,17 @@ type Node struct {
 
 	privateKey keys.PrivateKey
 	publicKey  keys.PublicKey
+
+	id id.ID
+
+	maxDialAttempts        uint
+	maxInboundConnections  uint
+	maxOutboundConnections uint
+	maxRecvNessageSize     uint
+	mumWorkers             uint
+
+	idleTimeout time.Duration
+
+	listener  net.Listener
+	listening atomic.Bool
 }
