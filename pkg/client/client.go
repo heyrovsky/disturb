@@ -1,7 +1,16 @@
 package client
 
-import "github.com/heyrovsky/disturbdb/p2p"
+import (
+	"log"
+
+	"github.com/heyrovsky/disturbdb/p2p"
+	"github.com/heyrovsky/disturbdb/pkg/id"
+)
 
 type Client struct {
-	node *p2p.Node
+	Node *p2p.Node
+
+	Id id.ID
+
+	Log *log.Logger
 }
